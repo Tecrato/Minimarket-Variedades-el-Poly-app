@@ -1,5 +1,5 @@
 import pygame as pag
-from image import Image
+from Utilidades.image import Image
 from Utilidades.obj_Base import Base
 from Utilidades import Create_text
 from constants import *

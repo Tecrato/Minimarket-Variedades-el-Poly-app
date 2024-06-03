@@ -7,17 +7,6 @@ class DataBase:
 
         self.prepared_session = requests.session()
 
-        # pr = self.prepared_session.prepare_request(requests.Request(
-        #     'GET',
-        #     self.url + 'apiasd',
-        #     params={'randomnautica': 'productos'}
-        # )
-        # )
-        # response = self.prepared_session.send(
-        #     pr,
-        #     timeout=15
-        # )
-
     def login(self, correo, contraseña):
         try:
             r = False
@@ -62,7 +51,3 @@ class DataBase:
         with open(f'cache/{name}', 'wb') as file:
             file.write(response.content)
         return f'cache/{name}'
-        # if stream:
-        #     return response.iter_content(chunk)
-        # else:
-        #     return response.content

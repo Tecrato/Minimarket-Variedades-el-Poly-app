@@ -13,7 +13,7 @@ from Utilidades import GUI
 from Utilidades import mini_GUI
 from Utilidades.win32_tools import moveWin,front2
 from DB import DataBase
-from image import Image
+from Utilidades.image import Image
 from constants import *
 from bloque import Tarjeta
 
@@ -175,10 +175,11 @@ class Programa:
             for x in range(xt - 2):
                 self.centros_tarjetas_productos.append((((self.display_rect.w-50)/(xt-2))*x + 130,(y*300)+300-self.desplazamiento))
         self.max_pag_productos = len(self.centros_tarjetas_productos)
-
-        for i,x in enumerate(self.tarjetas_productos[:self.max_pag_productos]):
-            x.pos = self.centros_tarjetas_productos[i]
-        self.tarjetas_productos_altura_max = self.tarjetas_productos[-1].bottom
+        
+        if self.tarjetas_productos:
+            for i,x in enumerate(self.tarjetas_productos[:self.max_pag_productos]):
+                x.pos = self.centros_tarjetas_productos[i]
+            self.tarjetas_productos_altura_max = self.tarjetas_productos[-1].bottom
 
         self.image_login.pos = (self.display_rect.w / 2, 150)
 
@@ -378,8 +379,6 @@ class Programa:
                     elif self.desplazamiento<-self.centros_tarjetas_productos[-1][1]+300:
                         self.desplazamiento = -self.centros_tarjetas_productos[-1][1]+300
                     print(self.desplazamiento,-self.centros_tarjetas_productos[-1][1])
-                    # elif self.desplazamiento>self.centros_tarjetas_productos[-1][1]:
-                    #     self.desplazamiento = -self.centros_tarjetas_productos[-1][1]
 
                     for i, x in enumerate(self.tarjetas_productos[:self.max_pag_productos]):
                         x.pos = pag.Vector2(self.centros_tarjetas_productos[i])+(0,self.desplazamiento)
@@ -415,8 +414,4 @@ class Programa:
 
 
 if __name__ == '__main__':
-    print('Iniciando')
-    # print(requests.post('http://localhost/Proyecto-UPTAEB-T2/Controller/funcs_ajax/login.php',
-    #                     {'correo': 'nose@gmail.com', 'contraseña': 12345}
-    #                     ).text)
     clase = Programa()
