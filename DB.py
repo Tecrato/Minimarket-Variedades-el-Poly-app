@@ -17,7 +17,7 @@ class DataBase:
             if response.text == '1':
                 r = True
         finally:
-            return r
+            return r;
 
     def buscar(self, **kwargs) -> list:
         pr = self.prepared_session.prepare_request(requests.Request(
