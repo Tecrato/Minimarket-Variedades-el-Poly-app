@@ -42,7 +42,7 @@ class DataBase:
             pr,
             timeout=15,
             allow_redirects=True
-        )
+        )      
 
         if Path(f'cache/{name}').is_file() and Path(f'cache/{name}').stat().st_size == int(response.headers['content-length']):
             return f'cache/{name}'
