@@ -1,7 +1,7 @@
 import pygame as pag
-from Utilidades.image import Image
-from Utilidades.obj_Base import Base
-from Utilidades import Create_text
+from Utilidades_pygame.image import Image
+from Utilidades_pygame.obj_Base import Base
+from Utilidades_pygame import Text
 from constants import *
 
 
@@ -17,8 +17,8 @@ class Tarjeta(Bloque):
     def __init__(self,pos,size,dire,imagen,nombre,stock,background):
         super().__init__(pos,size,dire)
         self.background = background
-        self.nombre = Create_text(nombre,14,FONT_ARIAL,(0,size[1]-20),'bottomleft',padding=15)
-        self.stock = Create_text(stock,14,FONT_ARIAL,(0,size[1]),'bottomleft',padding=15)
+        self.nombre = Text(nombre,14,FONT_ARIAL,(0,size[1]-20),'bottomleft',padding=15)
+        self.stock = Text(stock,14,FONT_ARIAL,(0,size[1]),'bottomleft',padding=15)
         self.imagen = Image(imagen,(0,0),'topleft',(size[0],size[1]-50),(20,20,20))
         self.actualizar_superficie((-500,-500))
 

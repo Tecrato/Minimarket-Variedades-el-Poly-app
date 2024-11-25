@@ -8,12 +8,14 @@ from pygame.locals import KEYDOWN, K_ESCAPE, QUIT, MOUSEBUTTONDOWN
 from pygame.locals import WINDOWMAXIMIZED, WINDOWFOCUSGAINED, WINDOWMINIMIZED, WINDOWFOCUSLOST, WINDOWTAKEFOCUS
 
 
-from Utilidades import Create_text, Create_boton, Funcs_pool, Input_text, Poligono_irregular
-from Utilidades import GUI
-from Utilidades import mini_GUI
+from Utilidades_pygame import Text, Button, Input, Poligono_irregular
+from Utilidades_pygame import GUI
+from Utilidades_pygame import mini_GUI
 from Utilidades.win32_tools import moveWin,front2
+from Utilidades_pygame.image import Image
+from Utilidades.figuras.engranajes import Engranaje
 from DB import DataBase
-from Utilidades.image import Image
+from Utilidades import Funcs_pool
 from constants import *
 from bloque import Tarjeta
 
@@ -52,7 +54,7 @@ class Programa:
         # self.font_simbolos = './Assets/fuentes/Symbols.ttf'
 
         # Cosas varias
-        Utilidades.GUI.configs['fuente_simbolos'] = self.font_simbolos
+        GUI.configs['fuente_simbolos'] = self.font_simbolos
         self.GUI_manager = GUI.GUI_admin()
         self.Mini_GUI_manager = mini_GUI.mini_GUI_admin(self.display_rect)
         self.Func_pool = Funcs_pool()
@@ -106,17 +108,25 @@ class Programa:
 
     def load_objs(self):
         self.engranajes = [
-            Poligono_irregular('engranaje', (self.display_rect.w - 40, self.display_rect.h - 80), 20, 20, color='green', tamaño_diente=4, num_dientes=10),
-            Poligono_irregular('engranaje', (self.display_rect.w - 70, self.display_rect.h - 50), 20, 0, color='red', tamaño_diente=4, num_dientes=10),
-            Poligono_irregular('engranaje', (self.display_rect.w - 90, self.display_rect.h - 75), 10, 30, color='purple', tamaño_diente=4, num_dientes=5),
+            Engranaje((self.ventana_rect.w - 40, self.ventana_rect.h - 80), 8, 5, 20, 20),
+            Engranaje((self.ventana_rect.w - 70, self.ventana_rect.h - 50), 8, 5, 20, 0),
+            Engranaje((self.ventana_rect.w - 90, self.ventana_rect.h - 75), 4, 5, 10, 30),
         ]
+        self.engranajes[0].color = 'green'
+        self.engranajes[1].color = 'red'
+        self.engranajes[2].color = 'purple'
+        # self.engranajes = [
+        #     Poligono_irregular('engranaje', (self.display_rect.w - 40, self.display_rect.h - 80), 20, 20, color='green', tamaño_diente=4, num_dientes=10),
+        #     Poligono_irregular('engranaje', (self.display_rect.w - 70, self.display_rect.h - 50), 20, 0, color='red', tamaño_diente=4, num_dientes=10),
+        #     Poligono_irregular('engranaje', (self.display_rect.w - 90, self.display_rect.h - 75), 10, 30, color='purple', tamaño_diente=4, num_dientes=5),
+        # ]
 
         # Header
         self.header_banner = Image('Assets/images/banner_header.png', (0, 0), 'topleft', (self.display_rect.w, 100))
         self.header_logo = Image('Assets/images/Logo Minimarket 2.png', (5, 5), 'topleft', (200, 75),(0,125,53))
-        self.btn_header_inicio = Create_boton('Inicio',18,FONT_ARIAL,(100,self.header_banner.rect.h),40, 'top', 'darkgrey', with_rect=False, color_active='grey', border_width=-1)
-        self.btn_header_productos = Create_boton('Productos',18,FONT_ARIAL,(190,self.header_banner.rect.h),40, 'top', 'darkgrey', with_rect=False, color_active='grey', border_width=-1)
-        self.btn_header_proveedores = Create_boton('Proveedores',18,FONT_ARIAL,(310,self.header_banner.rect.h),40, 'top', 'darkgrey', with_rect=False, color_active='grey', border_width=-1)
+        self.btn_header_inicio = Button('Inicio',18,FONT_ARIAL,(100,self.header_banner.rect.h),40, 'top', 'darkgrey', with_rect=False, color_active='white', border_width=-1)
+        self.btn_header_productos = Button('Productos',18,FONT_ARIAL,(190,self.header_banner.rect.h),40, 'top', 'darkgrey', with_rect=False, color_active='white', border_width=-1)
+        self.btn_header_proveedores = Button('Proveedores',18,FONT_ARIAL,(310,self.header_banner.rect.h),40, 'top', 'darkgrey', with_rect=False, color_active='white', border_width=-1)
 
 
         # Pantalla del login
@@ -126,12 +136,12 @@ class Programa:
         # self.cuadrado_transparente_login.fill((0,0,0,100))
         self.image_login= Image('./Assets/images/logo_m.png', (self.display_rect.w / 2, 150), 'center', (150, 150), (10, 100, 2))
 
-        self.input_correo_login = Input_text((self.display_rect.w / 2, 300), 18, FONT_ARIAL, 'Correo', 50, (30, 20), 300, text_color='black', text_value_color='darkgrey', pointer_color='black', background_color=(250, 250, 250), border_width=1, border_color=(20, 20, 20), border_radius=20, dire='center')
-        self.input_contraseña_login = Input_text((self.display_rect.w / 2, 370), 18, FONT_ARIAL, 'Contraseña', 50, (30, 20), 300, text_color='black', text_value_color='darkgrey', pointer_color='black', background_color=(250, 250, 250), border_width=1, border_color=(20, 20, 20), border_radius=20, dire='center')
+        self.input_correo_login = Input((self.display_rect.w / 2, 300), 18, FONT_ARIAL, 'Correo', 50, (30, 20), 300, text_color='black', text_value_color='darkgrey', pointer_color='black', background_color=(250, 250, 250), border_width=1, border_color=(20, 20, 20), border_radius=20, dire='center')
+        self.input_contraseña_login = Input((self.display_rect.w / 2, 370), 18, FONT_ARIAL, 'Contraseña', 50, (30, 20), 300, text_color='black', text_value_color='darkgrey', pointer_color='black', background_color=(250, 250, 250), border_width=1, border_color=(20, 20, 20), border_radius=20, dire='center')
 
-        self.btn_login_login = Create_boton('Login', 25, FONT_ARIAL, (self.display_rect.w / 2, 450), (50, 20), 'center', color='white', border_width=1, border_color='white', with_rect=False, color_active='grey', color_border_active='grey', func=lambda :self.Func_pool.start('loguearse'))
-        self.text_login_autologin = Create_text('Loguearse automaticamente', 20, FONT_ARIAL, (self.display_rect.w / 2 - 20, 500), 'center', padding=20, color='white', with_rect=False, border_width=-1)
-        self.btn_login_autologin = Create_boton('' if self.autolog else '', 20, FONT_SIMBOLOS, (self.text_login_autologin.right,500), 20, 'left', color='white', toggle_rect=True,color_rect_active=(40, 40, 40),border_width=-1, func=self.func_toggle_autologin)
+        self.btn_login_login = Button('Login', 25, FONT_ARIAL, (self.display_rect.w / 2, 450), (50, 20), 'center', color='white', border_width=1, border_color='white', with_rect=False, color_active='grey', color_border_active='grey', func=lambda :self.Func_pool.start('loguearse'))
+        self.text_login_autologin = Text('Loguearse automaticamente', 20, FONT_ARIAL, (self.display_rect.w / 2 - 20, 500), 'center', padding=20, color='white', with_rect=False, border_width=-1)
+        self.btn_login_autologin = Button('' if self.autolog else '', 20, FONT_SIMBOLOS, (self.text_login_autologin.right,500), 20, 'left', color='white', toggle_rect=True,color_rect_active=(40, 40, 40),border_width=-1, func=self.func_toggle_autologin)
 
         # Productos
         self.centros_tarjetas_productos = []
@@ -330,9 +340,14 @@ class Programa:
                 self.engranajes[1].angle -= 1
                 self.engranajes[2].angle += 2
 
-                self.engranajes[0].draw(self.display)
-                self.engranajes[1].draw(self.display)
-                self.engranajes[2].draw(self.display)
+                for x in self.engranajes:
+                    pag.draw.circle(self.display, x.color, x.pos,x.radio)
+                    for y in x.dientes:
+                        pag.draw.polygon(self.display, x.color, y.figure)
+
+                # self.engranajes[0].draw(self.display)
+                # self.engranajes[1].draw(self.display)
+                # self.engranajes[2].draw(self.display)
             self.ventana.blit(self.display,(0,0))
             pag.display.flip()
 
@@ -378,7 +393,7 @@ class Programa:
                         self.desplazamiento = 0
                     elif self.desplazamiento<-self.centros_tarjetas_productos[-1][1]+300:
                         self.desplazamiento = -self.centros_tarjetas_productos[-1][1]+300
-                    print(self.desplazamiento,-self.centros_tarjetas_productos[-1][1])
+                    # print(self.desplazamiento,-self.centros_tarjetas_productos[-1][1])
 
                     for i, x in enumerate(self.tarjetas_productos[:self.max_pag_productos]):
                         x.pos = pag.Vector2(self.centros_tarjetas_productos[i])+(0,self.desplazamiento)
@@ -403,9 +418,14 @@ class Programa:
                 self.engranajes[1].angle -= 1
                 self.engranajes[2].angle += 2
 
-                self.engranajes[0].draw(self.display)
-                self.engranajes[1].draw(self.display)
-                self.engranajes[2].draw(self.display)
+                for x in self.engranajes:
+                    pag.draw.circle(self.display, x.color, x.pos,x.radio)
+                    for y in x.dientes:
+                        pag.draw.polygon(self.display, x.color, y.figure)
+
+                # self.engranajes[0].draw(self.display)
+                # self.engranajes[1].draw(self.display)
+                # self.engranajes[2].draw(self.display)
 
             self.ventana.blit(self.display,(0,0))
             pag.display.flip()

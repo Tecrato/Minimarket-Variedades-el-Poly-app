@@ -12,8 +12,9 @@ class DataBase:
             r = False
             response = self.prepared_session.send(requests.Request(
                 'POST', self.url + 'api_login',
-                data={'correo': correo, 'contraseña': contraseña}
+                data={'correo': correo, 'password': contraseña}
             ).prepare(), timeout=15)
+            print(response.text)
             if response.text == '1':
                 r = True
         finally:
@@ -21,21 +22,22 @@ class DataBase:
 
     def buscar(self, **kwargs) -> list:
         pr = self.prepared_session.prepare_request(requests.Request(
-            'GET',
+            'POST',
             self.url + 'api_search',
-            params=kwargs
+            data=kwargs
             )
         )
         response = self.prepared_session.send(
             pr,
             timeout=15
         )
+        print(response.content)
         return response.json()['lista']
     def download_image(self,name):
         pr = self.prepared_session.prepare_request(requests.Request(
-            'GET',
+            'POST',
             self.url + 'api_get_image',
-            params={'img':name}
+            data={'img':name}
             )
         )
         response = self.prepared_session.send(
